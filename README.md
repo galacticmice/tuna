@@ -3,13 +3,13 @@
 The Universal News Anchor ⚓
 
 ## Stack
-Dockerized:
-PostgreSQL
-Fastify (or Express ...tbd)
-React - typescript
-Node.js
+Dockerized:\
+- PostgreSQL
+- Fastify (or Express ...tbd)
+- React - typescript
+- Node.js
 
-BaaS Supabase | Appwrite 
+BaaS: Supabase | Appwrite 
 
 ### docker eta 03/23
 download docker desktop!
