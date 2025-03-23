@@ -20,10 +20,13 @@ download docker desktop!
 
 ### Relational DB Schemas
 - Option 1:
+  - Tables by country: DATE as primary key
   - Country (DATE*, category, trend)
 - Option 2: // not good practice
+  - Tables by DATE (a new table each day), country as primary key
   - DATE (country*, category, trend)
 - Option 3:
+  - ~~Tables by YEAR: many columns~~
   - YEAR (DAY*, )
 
 ## Functionality
