@@ -3,7 +3,7 @@
 The Universal News Anchor ⚓
 
 ## Stack
-Dockerized:\
+Dockerized:<br>
 - PostgreSQL
 - Fastify (or Express ...tbd)
 - React - typescript
