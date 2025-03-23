@@ -11,5 +11,9 @@ Dockerized:<br>
 
 BaaS: Supabase | Appwrite 
 
-### docker eta 03/23
+### docker tba 03/23
 download docker desktop!
+
+### backend setup eta 03/23
+
+### frontend is not intialized yet
