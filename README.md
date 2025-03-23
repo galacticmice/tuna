@@ -10,15 +10,13 @@ Dockerized:<br>
 - Node.js
 
 
-### docker tba 03/23
-download docker desktop!
-
-### backend setup eta 03/23
-
-### frontend is not intialized yet, eta 03/25
+# Todo
+- DB setup eta 03/23
+- Backend setup
+- frontend design
 
 
-### Relational DB Schemas
+# Relational DB Schemas
 - Option 1:
   - Tables by country: DATE as primary key
   - Country (DATE*, category, trend)
@@ -27,17 +25,20 @@ download docker desktop!
   - DATE (country*, category, trend)
 - Option 3:
   - ~~Tables by YEAR: many columns~~
-  - YEAR (DAY*, )
-
-## Functionality
-Switch time zone per region? <br>
-Curr date updates every hour? <br>
+  - YEAR (DAY*, <lots of columns>)
 
 
 ## Build
-### for individual front/backend
+download docker desktop!
+
+### **RUN THIS FOR NOW** ONLY FRONTEND WORKING
 docker build -t tuna-front .
 docker run -p 5050:5050 -v "$(pwd):/app" -v /app/node_modules tuna-front
 
 ### as whole package (tbd -- backend not connected yet)
 docker compose up --watch
+
+
+# Functionality Clarification
+Switch time zone per region? <br>
+Curr date updates every hour? <br>
