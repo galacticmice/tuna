@@ -4,16 +4,27 @@ The Universal News Anchor ⚓
 
 ## Stack
 Dockerized:<br>
-- PostgreSQL
+- PostgreSQL (BaaS: Supabase / Appwrite)
 - Fastify (or Express ...tbd)
-- React - typescript
+- Vite build: React - typescript
 - Node.js
 
-BaaS: Supabase | Appwrite 
 
 ### docker tba 03/23
 download docker desktop!
 
 ### backend setup eta 03/23
 
-### frontend is not intialized yet
+### frontend is not intialized yet, eta 03/25
+
+
+### Relational DB Schemas
+- Option 1:
+  - Country (DATE*, category, trend)
+- Option 2: // not good practice
+  - DATE (country*, category, trend)
+- Option 3:
+  - YEAR (DAY*, )
+
+Switch time zone per region? <br>
+Curr date updates every hour? <br>
