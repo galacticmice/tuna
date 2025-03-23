@@ -28,3 +28,10 @@ download docker desktop!
 
 Switch time zone per region? <br>
 Curr date updates every hour? <br>
+
+
+
+docker build -t tuna-front .
+docker run -p 5050:5050 -v "$(pwd):/app" -v /app/node_modules tuna-front
+
+docker compose up --watch
