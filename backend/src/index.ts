@@ -2,7 +2,7 @@ import Fastify from 'fastify';
 const PORT = 3000;
 
 // remove pino-pretty in production
-const fastify = Fastify({ logger: { transport: { target: "pino-pretty" } } });
+const fastify = Fastify({ logger: true });
 
 fastify.get('/', (request, response) => {
     return response.status(200).send({message: "HELLO! You've caught tuna!"});
