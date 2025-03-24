@@ -1,6 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
+  "exports": {
+  "import": "./dist/index.js",
+  "require": "./dist/index.js"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch src/index.ts",
@@ -17,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.12",
+    "fastify-tsconfig": "^3.0.0",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"

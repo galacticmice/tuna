@@ -1,19 +1,16 @@
 import Fastify from 'fastify';
-
 const PORT = 3000;
 
 // remove pino-pretty in production
-const fastify = Fastify({
-    logger: {
-        transport: {
-            target: "pino-pretty"
-        }
-    }});
+const fastify = Fastify({ logger: { transport: { target: "pino-pretty" } } });
 
 fastify.get('/', (request, response) => {
-    return response.status(200).send({message: "HELLO!"});
+    return response.status(200).send({message: "HELLO! You've caught tuna!"});
 })
 
+
+
+// server start
 async function main() {
     try {
         await fastify.listen({port: PORT})
@@ -24,6 +21,7 @@ async function main() {
     }
 }
 
+// shutdown
 ["SIGINT", "SIGTERM"].forEach((signal) => {
     process.on(signal, async () => {
         await fastify.close();
