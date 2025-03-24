@@ -6,7 +6,7 @@ services:
     # in this case, we specify that the web depends on the api service
     # this means that the api service will be started before the web service
     depends_on:
-      - api
+      - server
     # specify the build context for the web service
     # this is the directory where the Dockerfile for the web service is located
     build: ./frontend
@@ -14,11 +14,11 @@ services:
     # the first number is the port on the host machine
     # the second number is the port inside the container
     ports:
-      - 5050:5050
+      - 5173:5173
     # specify the environment variables for the web service
     # these environment variables will be available inside the container
     environment:
-      VITE_API_URL: http://localhost:8000
+      VITE_API_URL: http://localhost:8080
 
     # this is for docker compose watch mode
     # anything mentioned under develop will be watched for changes by docker compose watch and it will perform the action mentioned
@@ -36,10 +36,10 @@ services:
           action: sync
 
   # define the api service/container
-  api:
+  server:
     # api service depends on the db service so the db service will be started before the api service
-    depends_on:
-      - db
+    #depends_on:
+    #  - db
 
     # specify the build context for the api service
     build: ./backend
@@ -48,12 +48,12 @@ services:
     # the first number is the port on the host machine
     # the second number is the port inside the container
     ports:
-      - 8000:8000
+      - 8080:8080
 
     # specify environment variables for the api service
     # for demo purposes, we're using a local mongodb instance
-    environment:
-      DB_URL: mongodb://db/anime
+    #environment:
+      #DB_URL: mongodb://db/dbname
 
     # establish docker compose watch mode for the api service
     develop:
@@ -71,25 +71,25 @@ services:
           action: sync
 
   # define the db service
-  db:
+  #db:
     # specify the image to use for the db service from docker hub. If we have a custom image, we can specify that in this format
     # In the above two services, we're using the build context to build the image for the service from the Dockerfile so we specify the image as "build: ./frontend" or "build: ./backend".
     # but for the db service, we're using the image from docker hub so we specify the image as "image: mongo:latest"
     # you can find the image name and tag for mongodb from docker hub here: https://hub.docker.com/_/mongo
-    image: mongo:latest
+    #image: mongo:latest
 
     # specify the ports to expose for the db service
     # generally, we do this in api service using mongodb atlas. But for demo purposes, we're using a local mongodb instance
     # usually, mongodb runs on port 27017. So we're exposing the port 27017 on the host machine and mapping it to the port 27017 inside the container
-    ports:
-      - 5432:5432
+    #ports:
+    #  - 5432:5432
 
     # specify the volumes to mount for the db service
     # we're mounting the volume named "anime" inside the container at /data/db directory
     # this is done so that the data inside the mongodb container is persisted even if the container is stopped
-    volumes:
-      -
+    #volumes:
+    #  -
 
 # define the volumes to be used by the services
-volumes:
-  tuna:
+#volumes:
+  #tuna:

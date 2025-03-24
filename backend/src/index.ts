@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-const PORT = 3000;
+const PORT = 8080;
 
 // remove pino-pretty in production
 const fastify = Fastify({ logger: true });
