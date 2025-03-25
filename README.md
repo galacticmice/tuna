@@ -11,9 +11,9 @@ Dockerized:<br>
 
 
 # Todo
-- DB setup eta 03/23
-- Backend setup
+- DB setup
 - frontend design
+- Backend setup
 
 
 # Relational DB Schemas
@@ -28,15 +28,17 @@ Dockerized:<br>
   - YEAR (DAY*, <lots of columns>)
 
 
-## Build
-download docker desktop!
-
-### **RUN THIS FOR NOW** ONLY FRONTEND WORKING
-docker build -t tuna-front .
-docker run -p 5050:5050 -v "$(pwd):/app" -v /app/node_modules tuna-front
-
-### as whole package (tbd -- backend not connected yet)
+# To Run
+## Download Docker Desktop
+in tuna folder, run
+```
 docker compose up --watch
+```
+--watch flag to automatically rebuild the files while you are developing <br>
+
+- frontend should serve in http://localhost:3000
+  - The default graphic is provided by vite build tool
+- backend should serve in http://localhost:8080
 
 
 # Functionality Clarification
