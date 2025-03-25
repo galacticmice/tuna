@@ -2,16 +2,16 @@
 
 The Universal News Anchor ⚓
 
-## Stack
+### Stack
 Dockerized:<br>
 - PostgreSQL (BaaS: Supabase / Appwrite)
-- Fastify (or Express ...tbd)
-- Vite build: React - typescript
+- Fastify - Typescript
+- Vite build: React - Typescript
 - Node.js
 
 
 ### Todo
-- DB setup
+- DB setup (important!)
 - frontend design
 - Backend setup
 
@@ -28,17 +28,18 @@ Dockerized:<br>
   - YEAR (DAY*, <lots of columns>)
 
 
-## To Run
-### Download Docker Desktop
+## Build
+### Download [Docker Desktop](https://www.docker.com/get-started/)
 in tuna folder, run
 ```
 docker compose up --watch
 ```
---watch flag to automatically rebuild the files while you are developing <br>
+_--watch_ flag to automatically rebuild the files as you are developing <br>
 
 - frontend should serve in http://localhost:3000
   - The default graphic is provided by vite build tool
 - backend should serve in http://localhost:8080
+  - They are not connected yet, I still haven't learned how...
 
 
 ## Functionality Clarification
