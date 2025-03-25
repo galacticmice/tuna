@@ -10,13 +10,13 @@ Dockerized:<br>
 - Node.js
 
 
-# Todo
+### Todo
 - DB setup
 - frontend design
 - Backend setup
 
 
-# Relational DB Schemas
+### Relational DB Schemas
 - Option 1:
   - Tables by country: DATE as primary key
   - Country (DATE*, category, trend)
@@ -28,8 +28,8 @@ Dockerized:<br>
   - YEAR (DAY*, <lots of columns>)
 
 
-# To Run
-## Download Docker Desktop
+## To Run
+### Download Docker Desktop
 in tuna folder, run
 ```
 docker compose up --watch
@@ -41,6 +41,6 @@ docker compose up --watch
 - backend should serve in http://localhost:8080
 
 
-# Functionality Clarification
+## Functionality Clarification
 Switch time zone per region? <br>
 Curr date updates every hour? <br>
