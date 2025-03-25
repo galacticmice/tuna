@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 const PORT = 8080;
+const HOST = '0.0.0.0'
 
 // remove pino-pretty in production
 const fastify = Fastify({ logger: true });
@@ -13,7 +14,7 @@ fastify.get('/', (request, response) => {
 // server start
 async function main() {
     try {
-        await fastify.listen({port: PORT})
+        await fastify.listen({port: PORT, host: HOST})
         console.log(`Server listening at ${PORT}`)
     } catch (error) {
         fastify.log.error(error);
