@@ -9,3 +9,6 @@
 *.sln
 *.sw?
 node_modules
+# Python virtual environment
+venv/
+tempCodeRunnerFile.py
