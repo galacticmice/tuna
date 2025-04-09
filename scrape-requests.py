@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-query = "Trump"
+query = input("Enter search query to scrape: ")
+print('\n')
 
 # We need to use "html.duckduckgo.com/html" because the javascript can cause problems otherwise
 url = f"https://html.duckduckgo.com/html/?q={query}"
@@ -32,14 +33,16 @@ for link in soup.select("a.result__a"):
     results.append([title, href])
 
     # Print the output the current title and href in the loop to terminal
-    print(f"{title} - {href}")
+    # print(f"{title} - {href}")
+
+    print(f"{title}\n{href}\n")
 
 # Save the output to a CSV
-# open(open/create filename.csv, write)
-#
-with open(f"search-{query}.csv", "w") as f:
+# open(open/create filename.csv, write, newline rule) # new line is \n, so the CSV saves with LF line endings
+with open(f"search-{query}.csv", "w", newline="\n") as f:
     # Initialize the writer object to writer and writes to "f", the csv file
-    writer = csv.writer(f)
+    # lineterminator needed to force LF file type
+    writer = csv.writer(f, lineterminator='\n')
 
     # First write the header row to specify the column headers
     writer.writerow(["Search-Query", "URL"])
