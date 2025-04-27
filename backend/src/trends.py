@@ -31,4 +31,4 @@ print(news[2].url)
 # if NULL, don't call summarize API
 
 # test
-print(trends[2])
+print(trends[2].keyword)
