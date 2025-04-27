@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.query import Query
-from trends import Trends
+from constants import Trends, GEO_USA
 
 load_dotenv()
 
