@@ -14,3 +14,6 @@ class RegionData(BaseModel):
     link1: str
     link2: str
     link3: str
+
+
+# key: map -->  mapRegion: geoCode

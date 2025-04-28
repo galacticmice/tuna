@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.query import Query
-from constants import RegionData, GEO_USA
+from models import RegionData, GEO_USA
 
 load_dotenv()
 
@@ -15,7 +15,7 @@ client.set_key(os.getenv('APPWRITE_TUNA_DB_API_KEY'))
 
 databases = Databases(client)
 
-def add_entry(trend: RegionData):
+async def add_entry(trend: RegionData):
     """add entry (for initialization only)
 
     Args:
@@ -38,7 +38,7 @@ def add_entry(trend: RegionData):
     except Exception as e:
         print(f"Error adding document: {e}")
 
-def get_entry(region: str, rank: int):
+async def get_entry(region: str, rank: int):
     """Get single unique entry with specific region+rank key
 
     Args:
@@ -81,7 +81,7 @@ def get_entry(region: str, rank: int):
 #     ]
 # }
 
-def update_entry(trend: RegionData):
+async def update_entry(trend: RegionData):
     """update entry based on region+rank
 
     Args:

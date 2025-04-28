@@ -20,7 +20,7 @@ Current trends around the world, canned.
 - get trends API (partial)
   - ~~organize into class~~
   - ~~prep for interval update~~
-  - assign weight to categories (optional)
+  - assign categorical weights (optional)
 - trends refresh interval (planned)
 - llm integration (planned)
   - get trends from db
@@ -28,6 +28,8 @@ Current trends around the world, canned.
   - use scraper for misc data (optional)
 - routes setup (WIP)
 - frontend design (planned)
+  - interactive map
+  - LLM result display
 
 ## Build
 ### Download [Docker Desktop](https://www.docker.com/get-started/)
