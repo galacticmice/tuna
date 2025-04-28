@@ -22,7 +22,8 @@ Current trends around the world, canned.
   - ~~prep for interval update~~
   - assign categorical weights (optional)
 - trends refresh interval (planned)
-- llm integration (planned)
+- LLM integration (WIP)
+  - Gemini Flash / Llama Maverick
   - get trends from db
   - feed to llm
   - use scraper for misc data (optional)
