@@ -15,6 +15,12 @@ client.set_key(os.getenv('APPWRITE_TUNA_DB_API_KEY'))
 
 databases = Databases(client)
 
+"""
+This file is only used for testing or initialization purposes.
+                    DO NOT USE IN PRODUCTION
+It wipes the entire trend data table and repopulates it with new data.
+"""
+
 def wipe_table():
     existing_entries = databases.list_documents(
         database_id=os.getenv('APPWRITE_DATABASE_ID'),

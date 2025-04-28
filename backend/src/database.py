@@ -15,8 +15,12 @@ client.set_key(os.getenv('APPWRITE_TUNA_DB_API_KEY'))
 
 databases = Databases(client)
 
-# add entry (for initialization)
 def add_entry(trend: RegionData):
+    """add entry (for initialization only)
+
+    Args:
+        trend (RegionData): Object containing region code, rank, keyword, and links to articles
+    """
     try:
         databases.create_document(
             database_id=os.getenv('APPWRITE_DATABASE_ID'),
@@ -34,8 +38,16 @@ def add_entry(trend: RegionData):
     except Exception as e:
         print(f"Error adding document: {e}")
 
-# get single unique entry with specific region+rank key
 def get_entry(region: str, rank: int):
+    """Get single unique entry with specific region+rank key
+
+    Args:
+        region (str): Region code (e.g., 'US-CA')
+        rank (int): Rank of the trend (1-5)
+
+    Returns:
+        dict: Document containing region code, rank, keyword, and links to articles
+    """
     try:
         result = databases.list_documents(
             database_id=os.getenv('APPWRITE_DATABASE_ID'),
@@ -51,6 +63,7 @@ def get_entry(region: str, rank: int):
     except Exception as e:
         print(f"Error retrieving document: {e}")
         return None
+
 # example result of get_entry, in JSON
 # {
 #     "total": 5,
@@ -68,8 +81,12 @@ def get_entry(region: str, rank: int):
 #     ]
 # }
 
-# update entry based on region+rank
 def update_entry(trend: RegionData):
+    """update entry based on region+rank
+
+    Args:
+        trend (RegionData): Object containing region code, rank, keyword, and links to articles
+    """
     entry = get_entry(trend.region_code, trend.rank)
     if entry is not None:
         document_id = entry['$id'] # document ID from resultset
