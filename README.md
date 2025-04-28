@@ -10,6 +10,7 @@ Current trends around the world, canned.
 
 ### Todo
 - ~~initialize db schema (done)~~
+  - ~~typesafe objects using pydantic~~
 - ~~db operations (done)~~
   - ~~get~~
   - ~~update~~
