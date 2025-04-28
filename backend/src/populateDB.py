@@ -33,3 +33,7 @@ def populate_table():
         for i in range(5):
             o = trend_data(code, i)
             add_entry(o)
+
+
+wipe_table()
+populate_table()
