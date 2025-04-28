@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.query import Query
-from constants import Trends, GEO_USA
+from constants import RegionData, GEO_USA
 
 load_dotenv()
 
@@ -16,7 +16,7 @@ client.set_key(os.getenv('APPWRITE_TUNA_DB_API_KEY'))
 databases = Databases(client)
 
 # add entry (for initialization)
-def add_entry(trend: Trends):
+def add_entry(trend: RegionData):
     try:
         databases.create_document(
             database_id=os.getenv('APPWRITE_DATABASE_ID'),
@@ -69,7 +69,7 @@ def get_entry(region: str, rank: int):
 # }
 
 # update entry based on region+rank
-def update_entry(trend: Trends):
+def update_entry(trend: RegionData):
     entry = get_entry(trend.region_code, trend.rank)
     if entry is not None:
         document_id = entry['$id'] # document ID from resultset

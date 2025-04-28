@@ -7,7 +7,7 @@ GEO_USA = ('US-AL', 'US-AK', 'US-AZ', 'US-AR', 'US-CA', 'US-CO', 'US-CT', 'US-DE
            'US-SD', 'US-TN', 'US-TX', 'US-UT', 'US-VT', 'US-VA', 'US-WA', 'US-WV', 'US-WI', 'US-WY'
            'US')
 
-class Trends(BaseModel):
+class RegionData(BaseModel):
     region_code: str
     rank: int = Field(ge=1, le=5) # popularity ranking 1 of 5
     keyword: str
