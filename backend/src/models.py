@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 
 GEO_USA = ('US-AL', 'US-AK', 'US-AZ', 'US-AR', 'US-CA', 'US-CO', 'US-CT', 'US-DE', 'US-FL', 'US-GA',
            'US-HI', 'US-ID', 'US-IL', 'US-IN', 'US-IA', 'US-KS', 'US-KY', 'US-LA', 'US-ME', 'US-MD',
@@ -11,9 +12,9 @@ class RegionData(BaseModel):
     region_code: str
     rank: int = Field(ge=1, le=5) # popularity ranking 1 of 5
     keyword: str
-    link1: str
-    link2: str
-    link3: str
+    link1: Optional[str] = None
+    link2: Optional[str] = None
+    link3: Optional[str] = None
 
 
 # key: map -->  mapRegion: geoCode
