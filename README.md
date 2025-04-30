@@ -2,7 +2,7 @@
 Current trends around the world, canned.
 
 ### Stack
-- Appwrite
+- MariaDB --> might switch to NoSQL if we drop weighting
 - Python FastAPI
 - React TypeScript
 - Docker
@@ -33,8 +33,6 @@ Current trends around the world, canned.
   - LLM result display
 
 ## Build
-### Download [Docker Desktop](https://www.docker.com/get-started/)
-in tuna folder, run
 ```
 docker compose up --watch
 ```
