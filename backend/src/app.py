@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Union
-from llm import llm_response
+from .llm import llm_response
 import uvicorn
-from models import GEO_USA
 
 app = FastAPI()
 
@@ -38,7 +37,7 @@ async def get_llm_response():
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host="127.0.0.1", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
 
 # on click, redirect to /geo_code
 # get parameters from url {geo_code} {rank} with urlparser

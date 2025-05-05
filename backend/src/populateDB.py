@@ -2,9 +2,9 @@ import os
 from dotenv import load_dotenv
 from appwrite.client import Client
 from appwrite.services.databases import Databases
-from models import GEO_USA
-from database import add_entry
-from trends import trend_data
+from .models import GEO_USA
+from .database import add_entry
+from .trends import trend_data
 
 load_dotenv()
 

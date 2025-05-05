@@ -1,5 +1,5 @@
 from trendspy import Trends
-from models import RegionData
+from .models import RegionData
 
 tr = Trends()
 

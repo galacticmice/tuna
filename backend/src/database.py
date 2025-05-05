@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.query import Query
-from models import RegionData, GEO_USA
+from .models import RegionData, GEO_USA
 
 load_dotenv()
 

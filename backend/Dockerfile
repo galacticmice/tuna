@@ -11,4 +11,4 @@ RUN uv sync --frozen --no-cache
 
 EXPOSE 8080
 
-CMD uv run python app.py
+CMD ["uv", "run", "uvicorn", "src.app:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
