@@ -4,7 +4,7 @@ Current trends around the world, canned.
 ### Stack
 - MariaDB --> might switch to NoSQL if we drop weighting
 - Python FastAPI
-- React TypeScript
+- Svelte JS
 - Docker
 
 
@@ -23,7 +23,7 @@ Current trends around the world, canned.
   - assign categorical weights (optional)
 - trends refresh interval (planned)
 - LLM integration (WIP)
-  - Gemini Flash / Llama Maverick
+  - Gemini Flash (test pass)
   - get trends from db
   - feed to llm
   - use scraper for misc data (optional)
