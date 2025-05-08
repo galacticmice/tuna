@@ -1,4 +1,6 @@
 <script>
+    import { marked } from "marked";
+
     let response = $state('')
     let isLoading = $state(false);
 
@@ -42,9 +44,8 @@
     }
 </script>
 
-<p>
-    {response}
-</p>
+{@html marked(response)}
+
 <button onclick={getResponse}>
     {#if isLoading}
         Loading...
