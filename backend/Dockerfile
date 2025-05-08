@@ -3,9 +3,12 @@ FROM python:${PYTHON_VERSION}-slim as base
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+WORKDIR /app
+
 COPY . /app
 
-WORKDIR /app
+
+#ENV PYTHONPATH="${PYTHONPATH}:/app"
 
 RUN uv sync --frozen --no-cache
 

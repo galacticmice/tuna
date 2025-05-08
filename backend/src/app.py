@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from typing import Union
-from .llm import llm_response
 import uvicorn
+
+from .llm import llm_response
+from .trends import trend_data
 
 app = FastAPI()
 
@@ -33,7 +36,7 @@ async def read_item(geo_id: str, q: Union[int, None] = None):
 
 @app.get('/get-llm-response')
 async def get_llm_response():
-    return {"reply": llm_response()}
+    return StreamingResponse(llm_response(trend_data('US', 1)))
 
 
 if __name__ == '__main__':

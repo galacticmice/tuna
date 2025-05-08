@@ -3,7 +3,8 @@
     let isLoading = $state(false);
 
     async function getResponse() {
-        isLoading = true;
+        response = "";
+        // isLoading = true;
         try {
             const res = await fetch('http://localhost:8080/get-llm-response');
 
@@ -11,30 +12,38 @@
                 throw new Error('Network response was not ok');
             }
 
-            const data = await res.json();
+            if (!res.body) {
+                throw new Error('Response body is null.');
+            }
 
-            response = data.reply // get the "reply" field from the JSON response
-            isLoading = false;
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let done = false;
+
+            while (!done) {
+                const { value, done: readerDone } = await reader.read();
+                done = readerDone;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    response += chunk; // Append the new chunk to the reactive variable
+                }
+            }
 
             // reset the response after 10 seconds
             setTimeout(() => {
                 response = 'test passed';
-            }, 20000);
+            }, 120000);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             error = error.message;
         } finally {
-            isLoading = false;
+            // isLoading = false;
         }
     }
 </script>
 
 <p>
-    {#if isLoading}
-        awaiting response...
-    {:else}
-        {response}
-    {/if}
+    {response}
 </p>
 <button onclick={getResponse}>
     {#if isLoading}
