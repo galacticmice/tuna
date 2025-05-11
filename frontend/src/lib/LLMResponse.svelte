@@ -3,20 +3,21 @@
     import * as Dialog from '$lib/components/ui/dialog';
     import * as Carousel from '$lib/components/ui/carousel';
     import Loading from "$lib/Loading.svelte";
+    import { get } from 'svelte/store';
+    import { responseCache } from "$lib/stores.js";
 
     let response = $state(['', '', '', '', ''])
     let isDialogOpen = $state(false);
     let isLoading = $state([true, true, true, true, true]);
     let current_country_id = $state(null);
+    let current_country_name = $state(null);
 
-    async function getResponse(country) {
+    async function getResponse(country_code, country_name) {
         try {
-            const res = await fetch(`http://localhost:8080/get-llm-response/${country}`);
-
+            const res = await fetch(`http://localhost:8080/get-llm-response/${country_code}`);
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
-
             if (!res.body) {
                 throw new Error('Response body is null.');
             }
@@ -35,21 +36,39 @@
                 }
             }
 
+            // sessionStorage here
+            responseCache.update(cache => {
+                cache[country_code] = {
+                    responses: [response[0], response[1], response[2], response[3], response[4]]
+                };
+                return cache;
+            });
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             error = error.message;
         }
     }
 
-    $effect(() => {
-        if (isDialogOpen && current_country_id && response[0].length === 0 && isLoading[0]) { // Fetch iff open and data isn't loaded, sessionStorage here
-            getResponse(current_country_id);
-        }
-    });
-
-    export function openDialog(country_id) {
+    export function openDialog(country_id, country_name) {
         current_country_id = country_id;
+        current_country_name = country_name;
+
+        const cache = get(responseCache);
+        const cachedEntry = cache[country_id];
+
         isDialogOpen = true;
+
+        if (cachedEntry !== undefined) {
+            response = cachedEntry.responses;
+            for (let i = 0; i < 5; i++) {
+                isLoading[i] = false;
+            }
+        } else {
+            response = ['', '', '', '', '']; // Reset response array
+            isLoading = [true, true, true, true, true];
+            getResponse(current_country_id, current_country_name);
+        }
+
     }
 
     export function closeDialog() {
@@ -61,9 +80,9 @@
     <Dialog.Root open={isDialogOpen} onOpenChange={(open) => { if (!open) closeDialog(); }}>
         <Dialog.Content class="w-full h-full">
             <Dialog.Header>
-                <Dialog.Title>Country Name Here</Dialog.Title>
+                <Dialog.Title>{current_country_name}</Dialog.Title>
                 <Dialog.Description>
-                    Or Country Name Here.
+                    Trending in {current_country_name}.
                 </Dialog.Description>
             </Dialog.Header>
 

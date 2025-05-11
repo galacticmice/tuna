@@ -1,5 +1,5 @@
 <script>
-    import {createEventDispatcher, onMount} from 'svelte';
+    import { onMount } from 'svelte';
     import * as topojson from 'topojson-client';
     import { geoPath, geoMercator } from 'd3-geo';
     import { draw } from 'svelte/transition';
@@ -44,9 +44,9 @@
         tooltipVisible = false;
     }
 
-    function handleCountryClick(country_id) {
+    function handleCountryClick(feature) {
         if (llmResponseInstance && typeof llmResponseInstance.openDialog === 'function') {
-            llmResponseInstance.openDialog(country_id);
+            llmResponseInstance.openDialog(feature.id, feature.properties.name);
         } else {
             console.error("LLMResponse instance or openDialog method not available in Map.svelte");
         }
@@ -88,7 +88,7 @@
     <g bind:this={gRef} fill="white" stroke="black">
         {#each countries as feature, i}
             <path d={path(feature)}
-                  on:click={() => handleCountryClick(feature.id)}
+                  on:click={() => handleCountryClick(feature)}
                   on:mouseover={(event) => handleMouseOver(event, feature)}
                   on:mouseout={handleMouseOut}
                   class="country"
