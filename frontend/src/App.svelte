@@ -1,4 +1,5 @@
 <script>
+  import "./app.css";
   import LLMResponse from "./lib/LLMResponse.svelte";
   import Map from "./lib/Map.svelte";
 </script>
