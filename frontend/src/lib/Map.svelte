@@ -56,8 +56,8 @@
             tooltipY = svgRect.top + window.scrollY + bbox.y + bbox.height - 40 + 5; // Position slightly below the element
         } else {
             // Fallback if we can't get precise coordinates
-            tooltipX = event.pageX ? event.pageX + tooltipOffsetX : 50;
-            tooltipY = event.pageY ? event.pageY + tooltipOffsetY : 50;
+            tooltipX = event.pageX ? event.pageX - 40 : 50;
+            tooltipY = event.pageY ? event.pageY - 40 : 50;
         }
     }
 
