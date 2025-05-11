@@ -34,9 +34,9 @@ async def read_item(geo_id: str):
 async def read_item(geo_id: str, q: Union[int, None] = None):
     return {"i_see_the_code": geo_id, "q=?": q}
 
-@app.get('/get-llm-response')
-async def get_llm_response():
-    return StreamingResponse(llm_response(trend_data('US', 1)))
+@app.get('/get-llm-response/{country}')
+async def get_llm_response(country: str):
+    return StreamingResponse(llm_response(trend_data(country, 1)))
 
 
 if __name__ == '__main__':

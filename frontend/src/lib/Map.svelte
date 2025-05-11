@@ -1,10 +1,13 @@
 <script>
-    import { onMount } from 'svelte';
+    import {createEventDispatcher, onMount} from 'svelte';
     import * as topojson from 'topojson-client';
     import { geoPath, geoMercator } from 'd3-geo';
     import { draw } from 'svelte/transition';
     import { zoom } from 'd3-zoom';
     import { select } from 'd3-selection';
+    import LLMResponse from "$lib/LLMResponse.svelte";
+
+    let llmResponseInstance;
 
     const width = 900;
     const height = 600;
@@ -13,7 +16,6 @@
     const path = geoPath().projection(projection);
 
     let countries = [];
-    let selected;
     let svgRef;
     let gRef;
 
@@ -42,25 +44,13 @@
         tooltipVisible = false;
     }
 
-    function handleFocus(event, feature) {
-        tooltipVisible = true;
-        tooltipContent = feature.properties.name;
-
-        const targetPath = event.target;
-        if (targetPath && typeof targetPath.getBBox === 'function' && svgRef) {
-            const bbox = targetPath.getBBox(); // BBox relative to SVG
-            const svgRect = svgRef.getBoundingClientRect(); // SVG position relative to viewport
-
-            // Calculate absolute page position for the tooltip
-            tooltipX = svgRect.left + window.scrollX + bbox.x + (bbox.width / 2) - 40;
-            tooltipY = svgRect.top + window.scrollY + bbox.y + bbox.height - 40 + 5; // Position slightly below the element
+    function handleCountryClick(country_id) {
+        if (llmResponseInstance && typeof llmResponseInstance.openDialog === 'function') {
+            llmResponseInstance.openDialog(country_id);
         } else {
-            // Fallback if we can't get precise coordinates
-            tooltipX = event.pageX ? event.pageX - 40 : 50;
-            tooltipY = event.pageY ? event.pageY - 40 : 50;
+            console.error("LLMResponse instance or openDialog method not available in Map.svelte");
         }
     }
-
 
     onMount(async () => {
         try {
@@ -91,21 +81,20 @@
     });
 </script>
 
+<LLMResponse bind:this={llmResponseInstance} />
 
 <svg bind:this={svgRef} viewBox="0 0 {width} {height}" on:mousemove={handleMouseMove}>
     <!-- animate and draw borders -->
     <g bind:this={gRef} fill="white" stroke="black">
         {#each countries as feature, i}
             <path d={path(feature)}
-                  on:click={() => selected = feature}
+                  on:click={() => handleCountryClick(feature.id)}
                   on:mouseover={(event) => handleMouseOver(event, feature)}
                   on:mouseout={handleMouseOut}
                   class="country"
                   in:draw={{ delay: i * 50, duration: 1000 }} />
         {/each}
     </g>
-
-
 </svg>
 
 {#if tooltipVisible}

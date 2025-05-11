@@ -5,12 +5,13 @@
     import Loading from "$lib/Loading.svelte";
 
     let response = $state(['', '', '', '', ''])
-    let isDialogOpen = $state(true);
+    let isDialogOpen = $state(false);
     let isLoading = $state([true, true, true, true, true]);
+    let country_id = $state(null);
 
     async function getResponse(country) {
         try {
-            const res = await fetch('http://localhost:8080/get-llm-response/{country}');
+            const res = await fetch('http://localhost:8080/get-llm-response/${country}');
 
             if (!res.ok) {
                 throw new Error('Network response was not ok');
@@ -40,15 +41,15 @@
         }
     }
 
-    // fetch only if the dialog is open and data isn't loaded
     $effect(() => {
         if (isDialogOpen && response[0].length === 0) { // Fetch iff open and data isn't loaded, sessionStorage here
-            // getResponse();
+            getResponse(country_id);
         }
     });
 
-    export function openDialog() {
+    export function openDialog(country_id) {
         isDialogOpen = true;
+        country_id = country_id;
     }
 
     export function closeDialog() {
