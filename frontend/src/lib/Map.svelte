@@ -100,8 +100,6 @@
                   on:click={() => selected = feature}
                   on:mouseover={(event) => handleMouseOver(event, feature)}
                   on:mouseout={handleMouseOut}
-                  on:focus={(event) => handleFocus(event, feature)}
-                  on:blur={handleMouseOut}
                   class="country"
                   in:draw={{ delay: i * 50, duration: 1000 }} />
         {/each}
