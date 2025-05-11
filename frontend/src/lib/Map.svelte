@@ -106,7 +106,7 @@
 
 <style>
     .country:hover {
-        fill: hsl(0 0% 50% / 20%);
+        fill: lightsalmon;
     }
 
     svg:active {
