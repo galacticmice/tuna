@@ -9,7 +9,7 @@
     const width = 900;
     const height = 600;
 
-    const projection = geoMercator().scale(140).translate([width/2, height/1.4]);
+    const projection = geoMercator().scale(140).translate([width/2, height/2]);
     const path = geoPath().projection(projection);
 
     let countries = [];
