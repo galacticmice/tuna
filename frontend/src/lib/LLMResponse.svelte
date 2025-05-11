@@ -1,14 +1,16 @@
 <script>
     import { marked } from "marked";
+    import * as Dialog from '$lib/components/ui/dialog';
+    import * as Carousel from '$lib/components/ui/carousel';
+    import Loading from "$lib/Loading.svelte";
 
-    let response = $state('')
-    let isLoading = $state(false);
+    let response = $state(['', '', '', '', ''])
+    let isDialogOpen = $state(true);
+    let isLoading = $state([true, true, true, true, true]);
 
-    async function getResponse() {
-        response = "";
-        // isLoading = true;
+    async function getResponse(country) {
         try {
-            const res = await fetch('http://localhost:8080/get-llm-response');
+            const res = await fetch('http://localhost:8080/get-llm-response/{country}');
 
             if (!res.ok) {
                 throw new Error('Network response was not ok');
@@ -27,30 +29,62 @@
                 done = readerDone;
                 if (value) {
                     const chunk = decoder.decode(value, { stream: true });
-                    response += chunk; // Append the new chunk to the reactive variable
+                    response[0] += chunk; // Append the new chunk to the reactive variable
+                    isLoading[0] = false; // Set loading to false after the first chunk is received
                 }
             }
 
-            // reset the response after 10 seconds
-            setTimeout(() => {
-                response = 'test passed';
-            }, 120000);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             error = error.message;
-        } finally {
-            // isLoading = false;
         }
+    }
+
+    // fetch only if the dialog is open and data isn't loaded
+    $effect(() => {
+        if (isDialogOpen && response[0].length === 0) { // Fetch iff open and data isn't loaded, sessionStorage here
+            // getResponse();
+        }
+    });
+
+    export function openDialog() {
+        isDialogOpen = true;
+    }
+
+    export function closeDialog() {
+        isDialogOpen = false;
     }
 </script>
 
-{@html marked(response)}
+{#if isDialogOpen}
+    <Dialog.Root open={isDialogOpen} onOpenChange={(open) => { if (!open) closeDialog(); }}>
+        <Dialog.Content class="w-full h-full">
+            <Dialog.Header>
+                <Dialog.Title>Country Name Here</Dialog.Title>
+                <Dialog.Description>
+                    Or Country Name Here.
+                </Dialog.Description>
+            </Dialog.Header>
 
-<button onclick={getResponse}>
-    {#if isLoading}
-        Loading...
-    {:else}
-        LLM Test
-    {/if}
-</button>
+            <Carousel.Root class="w-full h-full">
+                <Carousel.Content>
+                    {#each response as item, i}
+                        <Carousel.Item>
+                            <div class="w-full h-full">
+                                {#if isLoading[i]}
+                                    <!--flex container problem here-->
+                                    <Loading />
+                                {:else}
+                                    {@html marked(item)}
+                                {/if}
+                            </div>
+                        </Carousel.Item>
+                    {/each}
+                </Carousel.Content>
+                <Carousel.Previous />
+                <Carousel.Next />
+            </Carousel.Root>
+        </Dialog.Content>
+    </Dialog.Root>
+{/if}
 

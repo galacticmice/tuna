@@ -2,6 +2,7 @@ import os
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .models import RegionData
 
@@ -18,7 +19,7 @@ def llm_response(issue: RegionData):
                 "comprehensively capture the contextual meaning and possible implications caused by the event."
                 "Answer the questions inquisitively and exploratively.\n\n"],
         config=types.GenerateContentConfig(
-            # max_output_tokens=500,
+            max_output_tokens=2000,
             # temperature=0.1,
             system_instruction=["Maintain a Flesch Reading Ease score of around 65. "
                                 "Use plain language and adjust tone dynamically: "
@@ -34,6 +35,9 @@ def llm_response(issue: RegionData):
         if chunk.text:
             yield chunk.text
 
+# def parallelize_requests(region):
+#     with ThreadPoolExecutor(max_workers=5) as executor:
+#         futures = {executor.submit()}
 
 # structured output
 # send through link

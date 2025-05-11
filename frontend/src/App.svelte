@@ -10,6 +10,7 @@
     <!-- Uncomment the line below to include the LLMResponse component -->
 <!--    <LLMResponse />-->
     <Map />
+    <LLMResponse />
   </div>
 
   <p>
