@@ -5,12 +5,10 @@
 
 <main>
 
-  <div class="flex-container">
+  <div class="map">
     <!-- Uncomment the line below to include the LLMResponse component -->
 <!--    <LLMResponse />-->
-    <div class="flex-child">
-      <Map />
-    </div>
+    <Map />
   </div>
 
   <p>

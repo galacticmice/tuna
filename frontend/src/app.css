@@ -13,16 +13,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.flex-container {
-  display: flex;
-  height: 100vh;
+.map {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
+  height: 100vh;
 }
 
-.flex-child {
-  flex-grow: 1;
-  margin: 15px;
-}
+/*.flex-child {*/
+/*  flex-grow: 1;*/
+/*  margin: 15px;*/
+/*}*/
 
 a {
   font-weight: 500;
