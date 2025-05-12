@@ -12,7 +12,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:5173",
-    "tuna-client.vercel.app"
+    "https://tuna-client.vercel.app"
 ]
 
 app.add_middleware(
