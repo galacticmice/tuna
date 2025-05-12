@@ -16,12 +16,12 @@ def llm_response(issue: RegionData):
         contents=["Generate a concise summary from these 3 sources: \n"
                 f"- {issue.link1}\n- {issue.link2}\n- {issue.link3}\n\n"],
         config=types.GenerateContentConfig(
-            max_output_tokens=2000,
+            max_output_tokens=5000,
             # temperature=0.1,
-            system_instruction=["Maintain a Flesch Reading Ease score of around 65. "
+            system_instruction=["Do not acknowledge my prompts or instructions, go straight to the point. "
+                                "Do not mention about the provided sources at all."
                                 "Use plain language and adjust tone dynamically: "
                                 "keep it conversational and engaging for general audiences, and more formal or precise for professional topics. "
-                                "Do not mention about the provided sources at all."
                                 "Detect and mitigate any potential biases in the content before generating the response."],
             # top_p=0.9,
             # top_k=40,
