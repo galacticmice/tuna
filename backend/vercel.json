@@ -1,7 +1,9 @@
 {
+  "devCommand": "uvicorn main:app --host 0.0.0.0 --port 8080",
+  "installCommand": "npm install",
   "builds": [
     {
-      "src": "app.py",
+      "src": "/app.py",
       "use": "@vercel/python"
     }
   ],
