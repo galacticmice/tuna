@@ -18,7 +18,8 @@
         let partialChunkBuffer = ''; // Buffer for incomplete JSON lines
 
         try {
-            const res = await fetch(`http://localhost:8080/get-llm-response/${country_code}`);
+            // const res = await fetch(`http://localhost:8080/get-llm-response/${country_code}`);
+            const res = await fetch(`http://localhost:8080/test`);
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -113,30 +114,31 @@
 
 {#if isDialogOpen}
     <Dialog.Root open={isDialogOpen} onOpenChange={(open) => { if (!open) closeDialog(); }}>
-        <Dialog.Content class="w-full h-full">
+        <Dialog.Content class="w-4/5 h-4/5 max-w-5xl max-h-none">
             <Dialog.Header>
                 <Dialog.Title>{current_country_name}</Dialog.Title>
                 <Dialog.Description>
                     Trending in {current_country_name}.
                 </Dialog.Description>
             </Dialog.Header>
-
-            <Carousel.Root class="w-full h-full">
-                <Carousel.Content>
-                    {#each response as item, i}
-                        <Carousel.Item>
-                            {#if isLoading[i]}
-                                <!--flex container problem here-->
-                                <Loading />
-                            {:else}
-                                {@html marked(item)}
-                            {/if}
-                        </Carousel.Item>
-                    {/each}
-                </Carousel.Content>
-                <Carousel.Previous />
-                <Carousel.Next />
-            </Carousel.Root>
+            <div class="grid gap-4 py-4">
+                <Carousel.Root>
+                    <Carousel.Content>
+                        {#each response as item, i}
+                            <Carousel.Item>
+                                {#if isLoading[i]}
+                                    <!--flex container problem here-->
+                                    <Loading />
+                                {:else}
+                                    {@html marked(item)}
+                                {/if}
+                            </Carousel.Item>
+                        {/each}
+                    </Carousel.Content>
+                    <Carousel.Previous />
+                    <Carousel.Next />
+                </Carousel.Root>
+            </div>
         </Dialog.Content>
     </Dialog.Root>
 {/if}
