@@ -15,7 +15,9 @@ def llm_response(issue: RegionData, index: int):
         response = client.models.generate_content_stream(
             model="gemini-2.5-flash-preview-04-17",
             contents=["Generate a detailed summary of the event from these 3 related sources: \n"
-                    f"- {issue.link1}\n- {issue.link2}\n- {issue.link3}\n\n"],
+                      f"- {issue.link1}\n- {issue.link2}\n- {issue.link3}\n"
+                      "Comprehensively capture the main points and core meaning of the text"
+                      "Explore any significant implications or conclusions.\n\n"],
             config=types.GenerateContentConfig(
                 max_output_tokens=10000,
                 # temperature=0.1,
