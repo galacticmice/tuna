@@ -11,8 +11,7 @@ from .trends import trend_data
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",
-    "https://tuna-client.vercel.app"
+    "http://localhost:5173"
 ]
 
 app.add_middleware(
