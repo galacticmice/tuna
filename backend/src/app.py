@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from typing import Union
 import uvicorn
+import json #testing
 
 from .llm import llm_response, parallelize_requests
 from .trends import trend_data
@@ -25,14 +26,9 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/geo/{geo_id}") # rank?
-async def read_item(geo_id: str):
-    return {"i_see_the_code": geo_id}
-
-# if want to use query for rank
-@app.get("/geo/{geo_id}") # rank?
-async def read_item(geo_id: str, q: Union[int, None] = None):
-    return {"i_see_the_code": geo_id, "q=?": q}
+@app.get("/test") # rank?
+async def read_item():
+    yield json.dumps({"id": 0, "content": "Hello World"}) + "\n"
 
 @app.get('/get-llm-response/{country}')
 async def get_llm_response(country: str):
