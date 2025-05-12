@@ -3,9 +3,13 @@ Current trends around the world, canned.
 
 ### Stack
 Routes and API are built using FastAPI. 
+
 The frontend is built using SvelteKit, with Tailwind CSS for styling. 
+
 Map uses D3-geo for rendering. 
+
 The LLM integration is done using the Gemini Flash API.
+
 Uses session storage for compute efficiency.
 
 ### Todo
@@ -21,7 +25,6 @@ Uses session storage for compute efficiency.
   - ~~organize into class~~
   - ~~prep for interval update~~
   - assign categorical weights (optional)
-- ~~trends refresh interval~~ (planned)
 - ~~LLM integration~~ (done)
   - ~~Gemini Flash (test pass)~~
   - ~~get trends from db~~
@@ -37,7 +40,11 @@ Uses session storage for compute efficiency.
   - ~~docker compose~~
   - ~~dockerfile for frontend~~
   - ~~dockerfile for backend~~
-- redis / mongo for db (optional)
+- redis / mongo for db (planned)
+  - trends refresh interval
+- misc frontend details
+  - header and footer.. 
+  - more navigation stuff
 
 ## Build
 ```
