@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 GEO_USA = ('US-AL', 'US-AK', 'US-AZ', 'US-AR', 'US-CA', 'US-CO', 'US-CT', 'US-DE', 'US-FL', 'US-GA',
            'US-HI', 'US-ID', 'US-IL', 'US-IN', 'US-IA', 'US-KS', 'US-KY', 'US-LA', 'US-ME', 'US-MD',
@@ -16,5 +16,8 @@ class RegionData(BaseModel):
     link2: Optional[str] = None
     link3: Optional[str] = None
 
+class SummarizedData(BaseModel):
+    region_code: str
+    summ: List[str]
 
 # key: map -->  mapRegion: geoCode

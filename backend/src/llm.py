@@ -3,8 +3,10 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from .database import add_entry
 from .trends import trend_data
-from .models import RegionData
+from .models import RegionData, SummarizedData
 
 load_dotenv()
 
@@ -35,9 +37,11 @@ def llm_response(issue: RegionData, index: int):
                 yield { "id": index, "content": chunk.text }
     except Exception as e:
         print(f"Error generating response for {issue}: {e}")
-        yield {f"Error generating response for {issue}: {e}"}
+        yield {"id": index, "error": str(e)}
 
 def parallelize_requests(region: str):
+    completed_responses = [""] * 5
+    response_had_error = False
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures_map = {}
         for i in range(5):
@@ -50,13 +54,25 @@ def parallelize_requests(region: str):
                 for chunk_dict in future.result():
                     # sent in string literal '{"id": id, "content": content}/n'
                     yield json.dumps(chunk_dict) + "\n"
+
+                    if "content" in chunk_dict and chunk_dict["content"] is not None:
+                        completed_responses[original_id] += chunk_dict["content"]
+                    elif "error" in chunk_dict:
+                        # if error chunk is received, store the error message.
+                        # this will overwrite any partial content accumulated for this ID.
+                        completed_responses[original_id] = f"Error: {chunk_dict['error']}"
+                        response_had_error = True
+
             except Exception as e:
                 print(f"Error processing future {original_id}: {e}")
                 yield json.dumps({"id": original_id, "error": f"Error processing future: {str(e)}"}) + "\n"
+                completed_responses[original_id] = str(e)
+                response_had_error = True
 
-
-
-
-# structured output
-# send through link
-# RAG and context switching
+    # send to DB
+    if not response_had_error:
+        o = SummarizedData(
+            region_code=region,
+            summ=[completed_responses[i] for i in range(5)]
+        )
+        add_entry(o)
