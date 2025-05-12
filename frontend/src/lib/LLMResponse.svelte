@@ -18,7 +18,7 @@
         let partialChunkBuffer = ''; // Buffer for incomplete JSON lines
 
         try {
-            const res = await fetch(`tuna-jade.vercel.app/${country_code}`);
+            const res = await fetch(`tuna-jade.vercel.app/get-llm-response/${country_code}`);
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
