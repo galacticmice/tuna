@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.query import Query
-from models import SummarizedData
+from .models import SummarizedData
 
 load_dotenv()
 
