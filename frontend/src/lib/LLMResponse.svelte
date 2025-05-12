@@ -36,14 +36,16 @@
                 if (value) {
                     const json_literal = decoder.decode(value, { stream: true });
 
-                    partialChunkBuffer += json_literal; // figure out why this is needed
+                    partialChunkBuffer += json_literal; // append new chunk to buffer as they come
 
                     let newlineIndex;
 
-                    while ((partialChunkBuffer.indexOf('\n')) >= 0) {
+                    // process the buffer, delimited by newlines
+                    while ((newlineIndex = partialChunkBuffer.indexOf('\n')) >= 0) {
                         const jsonline = partialChunkBuffer.substring(0, newlineIndex);
                         partialChunkBuffer = partialChunkBuffer.substring(newlineIndex + 1);
 
+                        // skip empty lines
                         if (jsonline.trim() === '')
                             continue;
 
@@ -59,7 +61,7 @@
                                 response[id] = `Error: ${error}`;
                                 console.error('Error in JSON response:', error);
                             } else if (chunk !== undefined) {
-                                response[id] += chunk;
+                                response[id] += chunk; // if chunk is valid, append to appropriate response
                             }
                         } catch (e) {
                             console.error('Error parsing JSON:', e, 'Original line: ', jsonline);
@@ -68,12 +70,10 @@
                 }
             }
 
-            // STOP HERE
-
             // sessionStorage here
             responseCache.update(cache => {
                 cache[country_code] = {
-                    responses: [response[0], response[1], response[2], response[3], response[4]]
+                    responses: [...response]
                 };
                 return cache;
             });
@@ -92,12 +92,13 @@
 
         isDialogOpen = true;
 
+        // if there is entry cached, use it
         if (cachedEntry !== undefined) {
-            response = cachedEntry.responses;
+            response = [...cachedEntry.responses];
             for (let i = 0; i < 5; i++) {
                 isLoading[i] = false;
             }
-        } else {
+        } else { // otherwise, fetch new data
             response = ['', '', '', '', '']; // Reset response array
             isLoading = [true, true, true, true, true];
             getResponse(current_country_id, current_country_name);

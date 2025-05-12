@@ -39,17 +39,18 @@ def parallelize_requests(region: str):
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures_map = {}
         for i in range(5):
-            future = executor.submit(llm_response, trend_data(region, i), i + 1)
-            futures_map[future] = i + 1
+            future = executor.submit(llm_response, trend_data(region, i), i)
+            futures_map[future] = i
 
         for future in as_completed(futures_map):
             original_id = futures_map[future]
             try:
                 for chunk_dict in future.result():
+                    # sent in string literal '{"id": id, "content": content}/n'
                     yield json.dumps(chunk_dict) + "\n"
             except Exception as e:
                 print(f"Error processing future {original_id}: {e}")
-                yield json.dumps({"error": f"Error processing future {original_id}: {e}"}) + "\n"
+                yield json.dumps({"id": original_id, "error": f"Error processing future: {str(e)}"}) + "\n"
 
 
 
