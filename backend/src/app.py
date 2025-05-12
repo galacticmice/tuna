@@ -4,7 +4,7 @@ from fastapi.responses import StreamingResponse
 from typing import Union
 import uvicorn
 
-from .llm import llm_response
+from .llm import llm_response, parallelize_requests
 from .trends import trend_data
 
 app = FastAPI()
@@ -36,7 +36,7 @@ async def read_item(geo_id: str, q: Union[int, None] = None):
 
 @app.get('/get-llm-response/{country}')
 async def get_llm_response(country: str):
-    return StreamingResponse(llm_response(trend_data(country, 1)))
+    return StreamingResponse(parallelize_requests(country), media_type="application/x-ndjson")
 
 
 if __name__ == '__main__':

@@ -13,6 +13,10 @@
     let current_country_name = $state(null);
 
     async function getResponse(country_code, country_name) {
+        response = ['', '', '', '', ''];
+        isLoading = [true, true, true, true, true];
+        let partialChunkBuffer = ''; // Buffer for incomplete JSON lines
+
         try {
             const res = await fetch(`http://localhost:8080/get-llm-response/${country_code}`);
             if (!res.ok) {
@@ -30,11 +34,41 @@
                 const { value, done: readerDone } = await reader.read();
                 done = readerDone;
                 if (value) {
-                    const chunk = decoder.decode(value, { stream: true });
-                    response[0] += chunk; // Append the new chunk to the reactive variable
-                    isLoading[0] = false; // Set loading to false after the first chunk is received
+                    const json_literal = decoder.decode(value, { stream: true });
+
+                    partialChunkBuffer += json_literal; // figure out why this is needed
+
+                    let newlineIndex;
+
+                    while ((partialChunkBuffer.indexOf('\n')) >= 0) {
+                        const jsonline = partialChunkBuffer.substring(0, newlineIndex);
+                        partialChunkBuffer = partialChunkBuffer.substring(newlineIndex + 1);
+
+                        if (jsonline.trim() === '')
+                            continue;
+
+                        try {
+                            const parsedJson = JSON.parse(jsonline);
+                            const id = parsedJson.id;
+                            const chunk = parsedJson.content;
+                            const error = parsedJson.error;
+
+                            isLoading[id] = false;
+
+                            if (error) {
+                                response[id] = `Error: ${error}`;
+                                console.error('Error in JSON response:', error);
+                            } else if (chunk !== undefined) {
+                                response[id] += chunk;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e, 'Original line: ', jsonline);
+                        }
+                    }
                 }
             }
+
+            // STOP HERE
 
             // sessionStorage here
             responseCache.update(cache => {
