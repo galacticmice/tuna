@@ -58,10 +58,9 @@ def parallelize_requests(region: str):
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures_map = {}
             for i in range(5):
-                trend = trend_data(region, i+1, 396)
                 future = executor.submit(
                     # WORK HERE!!!!! imported from trends.py
-                    llm_response, trend, i)
+                    llm_response, trend_data(region, i+1, 396), i)
                 futures_map[future] = i
 
             for future in as_completed(futures_map):
