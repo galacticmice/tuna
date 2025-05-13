@@ -16,11 +16,15 @@ client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 def llm_response(issue: RegionData, index: int):
     try:
+        if issue is None:
+            yield {"id": index, "content": "⚠️ No recent trends found to generate a summary for [category] in [region]."}
+            return
+
         response = client.models.generate_content_stream(
             model="gemini-2.5-flash-preview-04-17",
             contents=["Generate a detailed summary of the event from these 3 related sources: \n"
                       f"- {issue.link1}\n- {issue.link2}\n- {issue.link3}\n"
-                      "Comprehensively capture the main points and core meaning of the text"
+                      "Comprehensively capture the main points and core meaning of the text."
                       "Explore any significant implications or conclusions.\n\n"],
             config=types.GenerateContentConfig(
                 max_output_tokens=10000,
@@ -54,20 +58,11 @@ def parallelize_requests(region: str):
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures_map = {}
             for i in range(5):
-                # Save trend_data to trend in order to check if empty
-                # We still gotta pass an actual category id instead of a static int
-                trend = trend_data(region, i+1, 14)
-
-                # Check if trend data is empty to display error instead of "loading" forever
-                if trend is not None:
-                    # Proceed as usual if not None
-                    # Notice here trend_data(region, i+1, categoryID) is substituted with trend
-                    future = executor.submit(llm_response, trend, i)
-
-                    futures_map[future] = i
-                else:
-                    # If trend_data returned None, skip this request and store the error
-                    completed_responses[i] = "Error: No trending data available for this index."
+                trend = trend_data(region, i+1, 396)
+                future = executor.submit(
+                    # WORK HERE!!!!! imported from trends.py
+                    llm_response, trend, i)
+                futures_map[future] = i
 
             for future in as_completed(futures_map):
                 original_id = futures_map[future]
