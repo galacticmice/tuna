@@ -60,7 +60,7 @@ def parallelize_requests(region: str):
             for i in range(5):
                 future = executor.submit(
                     # WORK HERE!!!!! imported from trends.py
-                    llm_response, trend_data(region, i+1, 396), i)
+                    llm_response, trend_data(region, i+1, 13), i)
                 futures_map[future] = i
 
             for future in as_completed(futures_map):

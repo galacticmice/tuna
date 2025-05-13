@@ -16,12 +16,13 @@ def trend_data(region: str, i: int, categoryID: int):
     """
     # Wrapped the trend_data function in a try block to catch all errors. Previously had to catch for diff errors in diff places
     try:
-        trends = tr.trending_now(geo=region).filter_by_topic(topic=categoryID)
+        # trends = tr.trending_now(geo=region).filter_by_topic(topic=categoryID)
+        trends = tr.trending_now(geo=region)
 
         # Added a check if no data is returned
         if not trends or i >= len(trends):
             print(
-                f"No trending data for region {region} at category {categoryID}.")
+                f"No trending data for region {region} at category [].")
             return None
 
         news = tr.trending_now_news_by_ids(
@@ -33,7 +34,6 @@ def trend_data(region: str, i: int, categoryID: int):
             region_code=region,
             rank=i,
             keyword=trends[i].keyword,
-            # If a news does ,t out of index error
             link1=news[0].url,
             link2=news[1].url,
             link3=news[2].url
