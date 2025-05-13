@@ -83,9 +83,9 @@
 
 <LLMResponse bind:this={llmResponseInstance} />
 
-<svg bind:this={svgRef} viewBox="0 0 {width} {height}" on:mousemove={handleMouseMove}>
+<svg bind:this={svgRef} viewBox="0 0 {width} {height}" on:mousemove={handleMouseMove} style="background-color: #2A2A2A;">
     <!-- animate and draw borders -->
-    <g bind:this={gRef} fill="white" stroke="black">
+    <g bind:this={gRef} fill="#FFF5F2" stroke="#2E2E2E">
         {#each countries as feature, i}
             <path d={path(feature)}
                   on:click={() => handleCountryClick(feature)}
@@ -106,7 +106,7 @@
 
 <style>
     .country:hover {
-        fill: lightsalmon;
+        fill: #4B9EA0;
     }
 
     svg:active {
@@ -114,8 +114,8 @@
     }
 
     .tooltip {
-        background-color: rgba(25, 25, 25, 0.85); /* Darker background for better contrast */
-        color: white;
+        background-color: #2E2E2E; /* Darker background for better contrast */
+        color: #FFF5F2;
         padding: 6px 12px; /* Slightly more padding */
         border-radius: 5px; /* More rounded corners */
         font-size: 0.875rem; /* Standard small font size */
