@@ -54,10 +54,20 @@ def parallelize_requests(region: str):
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures_map = {}
             for i in range(5):
-                future = executor.submit(
-                    # WORK HERE!!!!! imported from trends.py
-                    llm_response, trend_data(region, i+1, 396), i)
-                futures_map[future] = i
+                # Save trend_data to trend in order to check if empty
+                # We still gotta pass an actual category id instead of a static int
+                trend = trend_data(region, i+1, 14)
+
+                # Check if trend data is empty to display error instead of "loading" forever
+                if trend is not None:
+                    # Proceed as usual if not None
+                    # Notice here trend_data(region, i+1, categoryID) is substituted with trend
+                    future = executor.submit(llm_response, trend, i)
+
+                    futures_map[future] = i
+                else:
+                    # If trend_data returned None, skip this request and store the error
+                    completed_responses[i] = "Error: No trending data available for this index."
 
             for future in as_completed(futures_map):
                 original_id = futures_map[future]
