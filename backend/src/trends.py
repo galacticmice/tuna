@@ -33,10 +33,10 @@ def trend_data(region: str, i: int, categoryID: int):
             region_code=region,
             rank=i,
             keyword=trends[i].keyword,
-            # If a news does not exist make it none to prevent out of index error
-            link1=news[0].url if len(news) > 0 else None,
-            link2=news[1].url if len(news) > 1 else None,
-            link3=news[2].url if len(news) > 2 else None
+            # If a news does ,t out of index error
+            link1=news[0].url,
+            link2=news[1].url,
+            link3=news[2].url
         )
         return obj
     # The except block catches any kind of error and returns None, which allows for displaying the error in the dialog box (check is in llm.py)
