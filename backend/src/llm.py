@@ -1,4 +1,5 @@
-import os, json
+import os
+import json
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from .models import RegionData, SummarizedData
 load_dotenv()
 
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+
 
 def llm_response(issue: RegionData, index: int):
     try:
@@ -34,10 +36,11 @@ def llm_response(issue: RegionData, index: int):
         )
         for chunk in response:
             if chunk.text:
-                yield { "id": index, "content": chunk.text }
+                yield {"id": index, "content": chunk.text}
     except Exception as e:
         print(f"Error generating response for {issue}: {e}")
         yield {"id": index, "error": str(e)}
+
 
 def parallelize_requests(region: str):
     on_db = get_entry(region)
@@ -51,7 +54,9 @@ def parallelize_requests(region: str):
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures_map = {}
             for i in range(5):
-                future = executor.submit(llm_response, trend_data(region, i+1), i)
+                future = executor.submit(
+                    # WORK HERE!!!!! imported from trends.py
+                    llm_response, trend_data(region, i+1, 396), i)
                 futures_map[future] = i
 
             for future in as_completed(futures_map):

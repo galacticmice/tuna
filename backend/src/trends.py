@@ -3,16 +3,21 @@ from .models import RegionData
 
 tr = Trends()
 
-def trend_data(region: str, i: int):
+
+def trend_data(region: str, i: int, categoryID: str):
+    categories = tr.categories(find=categoryID)
+
     """get trending data for region+rank and return as RegionData object for database
 
         Args:
             region (str): Region code (e.g., 'US-CA')
             i (int): Rank of the trend (0-4)
+            categoryID: Category ID (politics category = 396)
         Returns:
             RegionData: Object containing region code, rank, keyword, and links to articles
     """
-    trends = tr.trending_now(geo=region)
+    # TESTING: politics is category ID 396
+    trends = tr.trending_now(geo=region, cat=categoryID)
     news = tr.trending_now_news_by_ids(
         trends[i].news_tokens,  # News tokens from trending topic
         max_news=3  # Number of articles to retrieve
@@ -26,5 +31,3 @@ def trend_data(region: str, i: int):
         link3=news[2].url
     )
     return obj
-
-
