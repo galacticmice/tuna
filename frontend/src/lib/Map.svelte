@@ -14,7 +14,7 @@
 
   const projection = geoMercator()
     .scale(140)
-    .translate([width / 2, height / 2]);
+    .translate([width / 2, height / 1.85]);
   const path = geoPath().projection(projection);
 
   let countries = [];
