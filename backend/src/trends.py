@@ -4,9 +4,7 @@ from .models import RegionData
 tr = Trends()
 
 
-def trend_data(region: str, i: int, categoryID: str):
-    categories = tr.categories(find=categoryID)
-
+def trend_data(region: str, i: int, categoryID: int):
     """get trending data for region+rank and return as RegionData object for database
 
         Args:
@@ -16,8 +14,11 @@ def trend_data(region: str, i: int, categoryID: str):
         Returns:
             RegionData: Object containing region code, rank, keyword, and links to articles
     """
-    # TESTING: politics is category ID 396
-    trends = tr.trending_now(geo=region, cat=categoryID)
+    trends = tr.trending_now(geo=region).filter_by_topic(topic=categoryID)
+    # Added a check if no data is returned
+    if not trends or i >= len(trends):
+        print(f"No trending data for region {region} at rank {i}.")
+        return None
     news = tr.trending_now_news_by_ids(
         trends[i].news_tokens,  # News tokens from trending topic
         max_news=3  # Number of articles to retrieve
