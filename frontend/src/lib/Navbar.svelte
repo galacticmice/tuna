@@ -10,10 +10,25 @@
       class="bg-[#FFF5F2] text-[#4B9EA0] border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4B9EA0]"
     >
       <option disabled selected>Select an option</option>
-      <option>Category 1</option>
-      <option>Category 2</option>
-      <option>Category 3</option>
-      <option>Category 4</option>
+      <option>🚗 Autos and Vehicles</option>
+      <option>💄 Beauty and Fashion</option>
+      <option>👔 Business and Finance</option>
+      <option>⛅ Climate</option>
+      <option>🍿 Entertainment</option>
+      <option>🍽️ Food and Drink</option>
+      <option>🎮 Games</option>
+      <option>💉 Health</option>
+      <option>🪷 Hobbies and Leisure</option>
+      <option>🏫 Jobs and Education</option>
+      <option>🧑‍⚖️ Law and Government</option>
+      <option>👾 Other</option>
+      <option>🐕 Pets and Animals</option>
+      <option>💀 Politics</option>
+      <option>⚛️ Science</option>
+      <option>🛍️ Shopping</option>
+      <option>⚽ Sports</option>
+      <option>💻 Technology</option>
+      <option>✈️ Travel and Transportation</option>
     </select>
   </div>
 
