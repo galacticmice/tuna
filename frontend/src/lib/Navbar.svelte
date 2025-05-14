@@ -1,6 +1,6 @@
 <script>
-  // Initialize the empty category variable
-  let selectedCategory = "";
+  // Initialize selectedCategory to "0" (Default Category)
+  let selectedCategory = "0";
 
   // Function is defined. Srt to async, so that it can await a response from backend with code
   async function sendCategory() {
@@ -26,6 +26,8 @@
     // The log sends a message to the console on the browser so we can see what went through
     console.log("Server response:", result);
   }
+  // Call sendCategory on page load
+  sendCategory();
 </script>
 
 <nav
