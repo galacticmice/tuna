@@ -47,7 +47,7 @@ def llm_response(issue: RegionData, index: int):
         yield {"id": index, "error": str(e)}
 
 
-def parallelize_requests(region: str):
+def parallelize_requests(region: str, category_id: int):
     on_db = get_entry(region)
     if on_db is not None:
         for i in range(5):
@@ -60,8 +60,7 @@ def parallelize_requests(region: str):
             futures_map = {}
             for i in range(5):
                 future = executor.submit(
-                    # WORK HERE!!!!! imported from trends.py
-                    llm_response, trend_data(region, i+1, 14), i)
+                    llm_response, trend_data(region, i+1, category_id), i)
                 futures_map[future] = i
 
             for future in as_completed(futures_map):
