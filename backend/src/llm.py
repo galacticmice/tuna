@@ -33,7 +33,7 @@ def llm_response(issue: RegionData, index: int):
                                     "Do not mention where the sources come from."
                                     "Use plain language and limit to one paragraph. "
                                     "Detect and mitigate any potential biases in the content before generating the response."
-                                    "Utilize markdown format to highlight essential ideas of the response."
+                                    "Return response in markdown format to highlight essential ideas of the response."
                                     ],
                 # top_p=0.9,
                 # top_k=40,
