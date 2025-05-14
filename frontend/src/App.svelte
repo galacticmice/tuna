@@ -7,8 +7,15 @@
 
   // Splash screen that only loads the map when button is pressed
   let showMap = false;
+  let animateTransition = false;
+
+  // function to call the animation div
   function handleEnterClick() {
-    showMap = true;
+    animateTransition = true;
+
+    setTimeout(() => {
+      showMap = true;
+    }, 1000);
   }
 </script>
 
@@ -17,8 +24,13 @@
 </svelte:head>
 
 <main>
-  {#if showMap}
-    <div transition:fade={{ duration: 600 }}>
+  <!-- Animation condition stuff -->
+  {#if animateTransition}
+    <div class="page-transition"></div>
+  {/if}
+  <!-- Actually showing the main page -->
+  {#if animateTransition}
+    <div transition:fade={{ delay: 150, duration: 600 }}>
       <Navbar />
 
       <div class="map">
@@ -47,7 +59,6 @@
   {/if}
 </main>
 
-<!-- CSS for home screen -->
 <style>
   .home-screen {
     background-color: #fff5f2;
@@ -56,5 +67,34 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+
+  .page-transition {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: #4b9ea0;
+    border-radius: 50%;
+    z-index: 50;
+    transform: translate(-50%, -50%);
+    animation: circleExpand 1.5s ease forwards;
+  }
+
+  @keyframes circleExpand {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    50% {
+      width: 300vw;
+      height: 300vw;
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 </style>
