@@ -43,7 +43,8 @@ async def set_category(request: Request):
     data = await request.json()
 
     # Declare category variable to grab the categoryID field of the JSON
-    categoryID = data.get("categoryID", 0)
+    # 0 is the default value if categoryID is blank
+    categoryID = int(data.get("categoryID", 0))
 
     # Shown on the backend logs
     print("Backend received:", categoryID)
