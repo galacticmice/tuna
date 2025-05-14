@@ -10,14 +10,18 @@ def trend_data(region: str, i: int, categoryID: int):
         Args:
             region (str): Region code (e.g., 'US-CA')
             i (int): Rank of the trend (0-4)
-            categoryID: Category ID (politics category = 396)
+            categoryID: Category ID (politics category = 14)
         Returns:
             RegionData: Object containing region code, rank, keyword, and links to articles
     """
     # Wrapped the trend_data function in a try block to catch all errors. Previously had to catch for diff errors in diff places
     try:
-        # trends = tr.trending_now(geo=region).filter_by_topic(topic=categoryID)
-        trends = tr.trending_now(geo=region)
+        # Do not filter trending topics if categoryID is 0
+        if categoryID == 0:
+            trends = tr.trending_now(geo=region)
+        else:
+            trends = tr.trending_now(
+                geo=region).filter_by_topic(topic=categoryID)
 
         # Added a check if no data is returned
         if not trends or i >= len(trends):
