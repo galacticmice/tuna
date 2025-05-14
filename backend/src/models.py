@@ -17,7 +17,7 @@ class SummarizedData(BaseModel):
     categoryID: int = Field(ge=0, le=20)
     summ: List[str]
 
-TREND_TOPICS = {
+CATEGORY_DICT = {
     1: "Autos and Vehicles",
     2: "Beauty and Fashion",
     3: "Business and Finance",

@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .database import add_entry, get_entry
 from .trends import trend_data
-from .models import RegionData, SummarizedData
+from .models import RegionData, SummarizedData, CATEGORY_DICT
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 def llm_response(issue: RegionData, index: int):
     try:
         if issue is None:
-            yield {"id": index, "content": f"⚠️ No recent trends found to generate a summary for {RegionData.categoryID} in {RegionData.region_code}."}
+            yield {"id": index, "content": f"⚠️ No recent trends found to generate a summary for {CATEGORY_DICT[RegionData.categoryID]} in {RegionData.region_code}."}
             return
 
         response = client.models.generate_content_stream(
