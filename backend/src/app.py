@@ -46,10 +46,14 @@ async def set_category(request: Request):
     # 0 is the default value if categoryID is blank
     categoryID = int(data.get("categoryID", 0))
 
+    # Grab language field, defaults to english
+    language = data.get("language", "en")
+
     # Shown on the backend logs
     print("Backend received:", categoryID)
+    print("Backend received:", language)
     # This is shown on the browser console
-    return {"message": f"Received category: {categoryID}"}
+    return {"message": f"Received category: {categoryID} \n Received language: {language}"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8080)
