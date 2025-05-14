@@ -37,13 +37,13 @@ async def set_category(request: Request):
     # Notice await is used to keep listening for the request
     data = await request.json()
 
-    # Declare category variable to grab the category field of the JSON
-    category = data.get("category")
+    # Declare category variable to grab the categoryID field of the JSON
+    categoryID = data.get("categoryID")
 
     # Shown on the backend logs
-    print("Backend received:", category)
+    print("Backend received:", categoryID)
     # This is shown on the browser console
-    return {"message": f"Received category: {category}"}
+    return {"message": f"Received category: {categoryID}"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8080)
