@@ -98,7 +98,7 @@
   bind:this={svgRef}
   viewBox="0 0 {width} {height}"
   on:mousemove={handleMouseMove}
-  style="background-color: #2A2A2A;"
+  style="background-color: #6e6462;"
 >
   <!-- animate and draw borders -->
   <g bind:this={gRef} fill="#FFF5F2" stroke="#2E2E2E">
