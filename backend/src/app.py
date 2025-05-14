@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 import uvicorn
@@ -14,18 +14,36 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["get"],
+    allow_methods=["*"],
     allow_headers=["*"]
 )
+
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+
 @app.get('/get-llm-response/{country}')
 async def get_llm_response(country: str):
     return StreamingResponse(parallelize_requests(country), media_type="application/x-ndjson")
 
+
+# Route the HTTP post request to the endpoint /set-category
+@app.post("/set-category")
+# Define set_category with await to allow waiting for a Request object.
+async def set_category(request: Request):
+    # Declare data variable that will store the received JSON message from the POST request
+    # Notice await is used to keep listening for the request
+    data = await request.json()
+
+    # Declare category variable to grab the category field of the JSON
+    category = data.get("category")
+
+    # Shown on the backend logs
+    print("Backend received:", category)
+    # This is shown on the browser console
+    return {"message": f"Received category: {category}"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8080)
