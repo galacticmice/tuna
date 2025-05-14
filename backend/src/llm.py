@@ -17,7 +17,7 @@ client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 def llm_response(issue: RegionData, index: int):
     try:
         if issue is None:
-            yield {"id": index, "content": "⚠️ No recent trends found to generate a summary for [category] in [region]."}
+            yield {"id": index, "content": f"⚠️ No recent trends found to generate a summary for {RegionData.categoryID} in {RegionData.region_code}."}
             return
 
         response = client.models.generate_content_stream(
@@ -47,8 +47,8 @@ def llm_response(issue: RegionData, index: int):
         yield {"id": index, "error": str(e)}
 
 
-def parallelize_requests(region: str):
-    on_db = get_entry(region)
+def parallelize_requests(region: str, categoryID: int):
+    on_db = get_entry(region, categoryID)
     if on_db is not None:
         for i in range(5):
             # sent in string literal '{"id": id, "content": content}/n'
@@ -61,7 +61,7 @@ def parallelize_requests(region: str):
             for i in range(5):
                 future = executor.submit(
                     # WORK HERE!!!!! imported from trends.py
-                    llm_response, trend_data(region, i+1, 14), i)
+                    llm_response, trend_data(region, i+1, categoryID), i)
                 futures_map[future] = i
 
             for future in as_completed(futures_map):
@@ -89,6 +89,7 @@ def parallelize_requests(region: str):
         if not response_had_error:
             o = SummarizedData(
                 region_code=region,
+                categoryID=categoryID,
                 summ=[completed_responses[i] for i in range(5)]
             )
             add_entry(o)

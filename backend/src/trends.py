@@ -12,7 +12,7 @@ def trend_data(region: str, i: int, categoryID: int):
             i (int): Rank of the trend (0-4)
             categoryID: Category ID (politics category = 14)
         Returns:
-            RegionData: Object containing region code, rank, keyword, and links to articles
+            RegionData: Object containing region code, categoryID, rank, keyword, and links to articles
     """
     # Wrapped the trend_data function in a try block to catch all errors. Previously had to catch for diff errors in diff places
     try:
@@ -37,6 +37,7 @@ def trend_data(region: str, i: int, categoryID: int):
         obj = RegionData(
             region_code=region,
             rank=i,
+            categoryID=categoryID,
             keyword=trends[i].keyword,
             link1=news[0].url,
             link2=news[1].url,
