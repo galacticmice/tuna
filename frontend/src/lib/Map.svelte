@@ -1,11 +1,14 @@
 <script>
-  import { onMount } from 'svelte';
-  import * as topojson from 'topojson-client';
-  import { geoPath, geoMercator } from 'd3-geo';
-  import { draw } from 'svelte/transition';
-  import { zoom } from 'd3-zoom';
-  import { select } from 'd3-selection';
-  import LLMResponse from '$lib/LLMResponse.svelte';
+  import { onMount } from "svelte";
+  import * as topojson from "topojson-client";
+  import { geoPath, geoMercator } from "d3-geo";
+  import { draw } from "svelte/transition";
+  import { zoom } from "d3-zoom";
+  import { select } from "d3-selection";
+  import LLMResponse from "$lib/LLMResponse.svelte";
+
+  // Make a set to store the selected countries (id)
+  let selectedCountryIds = new Set();
 
   let llmResponseInstance;
 
@@ -22,7 +25,7 @@
   let gRef;
 
   let tooltipVisible = false;
-  let tooltipContent = '';
+  let tooltipContent = "";
   let tooltipX = 0;
   let tooltipY = 0;
 
@@ -47,21 +50,27 @@
   }
 
   function handleCountryClick(feature) {
+    // On country click add the selected country's id (feature.id) to the set, selectedCountryIds
+    selectedCountryIds.add(feature.id);
+    // Redeclare the selectedCountryIds set to itself in order to force the map color to refresh and change
+    // This counts as assigning a new object, which is why it force refreshes
+    selectedCountryIds = new Set(selectedCountryIds);
+
     if (
       llmResponseInstance &&
-      typeof llmResponseInstance.openDialog === 'function'
+      typeof llmResponseInstance.openDialog === "function"
     ) {
       llmResponseInstance.openDialog(feature.id, feature.properties.name);
     } else {
       console.error(
-        'LLMResponse instance or openDialog method not available in Map.svelte'
+        "LLMResponse instance or openDialog method not available in Map.svelte"
       );
     }
   }
 
   onMount(async () => {
     try {
-      const worldmap = await fetch('/countries-110m.json').then((response) =>
+      const worldmap = await fetch("/countries-110m.json").then((response) =>
         response.json()
       );
       if (worldmap && worldmap.objects && worldmap.objects.countries) {
@@ -77,9 +86,9 @@
 
       const zoomBehavior = zoom()
         .scaleExtent([1, 5]) // Min and max zoom levels
-        .on('zoom', (event) => {
+        .on("zoom", (event) => {
           if (gRef) {
-            select(gRef).attr('transform', event.transform);
+            select(gRef).attr("transform", event.transform);
           }
         });
 
@@ -87,7 +96,7 @@
         select(svgRef).call(zoomBehavior);
       }
     } catch (error) {
-      console.error('Error fetching world map data:', error);
+      console.error("Error fetching world map data:", error);
     }
   });
 </script>
@@ -100,7 +109,14 @@
   on:mousemove={handleMouseMove}
   style="background-color: #6e6462;"
 >
-  <!-- animate and draw borders -->
+  <!-- animate and draw borders
+   class:selected={selectedCountryIds.has(feature.id)} : When selected, check if selected country's id exists within the set
+   and apply the .selected class to the associated countryID (actual css that changes the color).
+   
+   selected={} applies selected based on the condition (if exists in clicked set)
+   so that the selected tag is applied which is then updated to match the tag.
+   -->
+
   <g bind:this={gRef} fill="#FFF5F2" stroke="#2E2E2E">
     {#each countries as feature, i}
       <path
@@ -109,6 +125,7 @@
         on:mouseover={(event) => handleMouseOver(event, feature)}
         on:mouseout={handleMouseOut}
         class="country"
+        class:selected={selectedCountryIds.has(feature.id)}
         in:draw={{ delay: i * 50, duration: 1000 }}
       />
     {/each}
@@ -144,5 +161,10 @@
     z-index: 1000; /* Ensure it's on top of other elements */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a subtle shadow */
     transition: opacity 0.1s ease-out; /* Optional: smooth fade for visibility */
+  }
+
+  /* Update selected country's fill color */
+  .country.selected {
+    fill: #f4a89d;
   }
 </style>
