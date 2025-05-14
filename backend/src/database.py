@@ -28,13 +28,14 @@ def add_entry(result: SummarizedData):
             document_id=ID.unique(),
             data={
                 'region_code': result.region_code,
+                'categoryID': result.categoryID,
                 'summaries': result.summ
             }
         )
     except Exception as e:
         print(f"Error adding document: {e}")
 
-def get_entry(region: str):
+def get_entry(region: str, categoryID: int):
     """Get single unique entry with specific region+rank key
 
     Args:
@@ -49,7 +50,10 @@ def get_entry(region: str):
             database_id=os.getenv('APPWRITE_DATABASE_ID'),
             collection_id=os.getenv('APPWRITE_TREND_DATA_TABLE'),
             queries=[
-                Query.equal("region_code", region)
+                Query.and_queries([
+                    Query.equal("region_code", region),
+                    Query.equal("categoryID", categoryID)
+                ])  # politics category
             ]
         )
         return result['documents'][0] # return only first document, result should only contain 1 anyways
