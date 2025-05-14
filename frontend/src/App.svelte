@@ -79,7 +79,7 @@
     border-radius: 50%;
     z-index: 50;
     transform: translate(-50%, -50%);
-    animation: circleExpand 1.5s ease forwards;
+    animation: circleExpand 1s ease forwards;
   }
 
   @keyframes circleExpand {
