@@ -53,7 +53,7 @@ async def set_category(request: Request):
     print("Backend received:", categoryID)
     print("Backend received:", language)
     # This is shown on the browser console
-    return {"message": f"Received category: {categoryID} \n Received language: {language}"}
+    return {"message": f"Received category: {categoryID} Received language: {language}"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8080)

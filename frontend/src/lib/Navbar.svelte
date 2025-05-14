@@ -53,6 +53,7 @@
         <option value="fr">🇫🇷 French</option>
         <option value="de">🇩🇪 German</option>
         <option value="zh">🇨🇳 Chinese</option>
+        <option value="kr">🇰🇷 Korean</option>
       </select>
       <select
         bind:value={selectedCategory}
