@@ -29,13 +29,14 @@ def add_entry(result: SummarizedData):
             data={
                 'region_code': result.region_code,
                 'categoryID': result.categoryID,
+                'language': result.language,
                 'summaries': result.summ
             }
         )
     except Exception as e:
         print(f"Error adding document: {e}")
 
-def get_entry(region: str, categoryID: int):
+def get_entry(region: str, categoryID: int, language: str):
     """Get single unique entry with specific region+rank key
 
     Args:
@@ -52,7 +53,8 @@ def get_entry(region: str, categoryID: int):
             queries=[
                 Query.and_queries([
                     Query.equal("region_code", region),
-                    Query.equal("categoryID", categoryID)
+                    Query.equal("categoryID", categoryID),
+                    Query.equal("language", language)
                 ])  # politics category
             ]
         )

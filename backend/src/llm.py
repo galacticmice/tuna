@@ -7,17 +7,17 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .database import add_entry, get_entry
 from .trends import trend_data
-from .models import RegionData, SummarizedData, CATEGORY_DICT
+from .models import RegionData, SummarizedData, CATEGORY_DICT, LANG_DICT
 
 load_dotenv()
 
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 
-def llm_response(issue: RegionData, index: int):
+def llm_response(issue: RegionData, index: int, language: str):
     try:
         if issue is None:
-            yield {"id": index, "content": f"⚠️ No recent trends found to generate a summary for selected category in region."}
+            yield {"id": index, "content": f"⚠️ No recent trends found in to generate a summary for selected category in region."}
             return
 
         response = client.models.generate_content_stream(
@@ -30,6 +30,7 @@ def llm_response(issue: RegionData, index: int):
                 max_output_tokens=10000,
                 # temperature=0.1,
                 system_instruction=["Do not acknowledge my prompts or instructions, go straight to the point. "
+                                    f"Generate your responses in {LANG_DICT[language]}."
                                     "Do not mention where the sources come from."
                                     "Use plain language and limit to one paragraph. "
                                     "Detect and mitigate any potential biases in the content before generating the response."
@@ -47,8 +48,8 @@ def llm_response(issue: RegionData, index: int):
         yield {"id": index, "error": str(e)}
 
 
-def parallelize_requests(region: str, categoryID: int):
-    on_db = get_entry(region, categoryID)
+def parallelize_requests(region: str, category_id: int, language: str):
+    on_db = get_entry(region, category_id, language)
     if on_db is not None:
         for i in range(5):
             # sent in string literal '{"id": id, "content": content}/n'
@@ -59,8 +60,7 @@ def parallelize_requests(region: str, categoryID: int):
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures_map = {}
             for i in range(5):
-                future = executor.submit(
-                    llm_response, trend_data(region, i+1, categoryID), i)
+                future = executor.submit(llm_response, trend_data(region, i+1, category_id), i, language)
 
                 futures_map[future] = i
 
@@ -89,7 +89,8 @@ def parallelize_requests(region: str, categoryID: int):
         if not response_had_error:
             o = SummarizedData(
                 region_code=region,
-                categoryID=categoryID,
+                category_id=category_id,
+                language=language,
                 summ=[completed_responses[i] for i in range(5)]
             )
             add_entry(o)

@@ -1,37 +1,5 @@
 <script>
-  // Initialize selectedCategory to "0" (Default Category)
-  let selectedCategory = "0";
-  let selectedLanguage = "en";
-
-  // Function is defined. Srt to async, so that it can await a response from backend with code
-  async function sendSelections() {
-    // If either selection is empty then return, so the rest of the function does not send an empty message
-    if (!selectedCategory || !selectedLanguage) return;
-
-    // Calls the backend at /set-category to send a POST request (lets data be sent to the backend)
-    const response = await fetch("http://localhost:8080/set-category", {
-      method: "POST",
-      // The header lets the backend know this will be a JSON message
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      // Send the selected category and language as a JSON object
-      // selectedCategory and selectedLanguage are sent together in the body's request
-      // Each value can be accessed easily by selecting JSON tags
-      body: JSON.stringify({
-        categoryID: selectedCategory,
-        language: selectedLanguage,
-      }),
-    });
-
-    // Wait for the server to respond and save its nessage to result
-    const result = await response.json();
-    // The log sends a message to the console on the browser so we can see what went through
-    console.log("Server response:", result);
-  }
-  // Call sendSelections on page load
-  sendSelections();
+  import { selectedLanguage, selectedCategory} from "$lib/stores.js";
 </script>
 
 <nav
@@ -44,8 +12,7 @@
   <div class="relative">
     <div class="flex gap-2 items-center">
       <select
-        bind:value={selectedLanguage}
-        on:change={sendSelections}
+        bind:value={$selectedLanguage}
         class="bg-[#FFF5F2] text-[#4B9EA0] border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4B9EA0]"
       >
         <option value="en" selected>🇺🇸 English</option>
@@ -56,8 +23,7 @@
         <option value="kr">🇰🇷 Korean</option>
       </select>
       <select
-        bind:value={selectedCategory}
-        on:change={sendSelections}
+        bind:value={$selectedCategory}
         class="bg-[#FFF5F2] text-[#4B9EA0] border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4B9EA0]"
       >
         <option value="0" selected>📁 Default Category</option>
