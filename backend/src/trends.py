@@ -21,7 +21,7 @@ def trend_data(region: str, i: int, categoryID: int):
             trends = tr.trending_now(geo=region)
         else:
             trends = tr.trending_now(
-                geo=region).filter_by_topic(topic=categoryID)
+                geo=region, hours=191).filter_by_topic(topic=categoryID)
 
         # Added a check if no data is returned
         if not trends or i >= len(trends):
