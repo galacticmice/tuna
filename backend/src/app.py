@@ -33,27 +33,27 @@ async def get_llm_response(reg: str, cat: int, lang: str):
 
 
 # Route the HTTP post request to the endpoint /set-category
-@app.post("/set-category")
-# Define set_category with await to allow waiting for a Request object.
-async def set_category(request: Request):
-    global categoryID
-
-    # Declare data variable that will store the received JSON message from the POST request
-    # Notice await is used to keep listening for the request
-    data = await request.json()
-
-    # Declare category variable to grab the categoryID field of the JSON
-    # 0 is the default value if categoryID is blank
-    categoryID = int(data.get("categoryID", 0))
-
-    # Grab language field, defaults to english
-    language = data.get("language", "en")
-
-    # Shown on the backend logs
-    print("Backend received:", categoryID)
-    print("Backend received:", language)
-    # This is shown on the browser console
-    return {"message": f"Received category: {categoryID} Received language: {language}"}
+# @app.post("/set-category")
+# # Define set_category with await to allow waiting for a Request object.
+# async def set_category(request: Request):
+#     global categoryID
+#
+#     # Declare data variable that will store the received JSON message from the POST request
+#     # Notice await is used to keep listening for the request
+#     data = await request.json()
+#
+#     # Declare category variable to grab the categoryID field of the JSON
+#     # 0 is the default value if categoryID is blank
+#     categoryID = int(data.get("categoryID", 0))
+#
+#     # Grab language field, defaults to english
+#     language = data.get("language", "en")
+#
+#     # Shown on the backend logs
+#     print("Backend received:", categoryID)
+#     print("Backend received:", language)
+#     # This is shown on the browser console
+#     return {"message": f"Received category: {categoryID} Received language: {language}"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8080)
