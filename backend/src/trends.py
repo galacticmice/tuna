@@ -4,24 +4,23 @@ from .models import RegionData
 tr = Trends()
 
 
-def trend_data(region: str, i: int, categoryID: int):
+def trend_data(region: str, i: int, category_id: int):
     """
     get trending data for region+rank and return as RegionData object for database
         Args:
             region (str): Region code (e.g., 'US-CA')
             i (int): Rank of the trend (0-4)
-            categoryID: Category ID (politics category = 14)
+            category_id: Category ID (politics category = 14)
         Returns:
-            RegionData: Object containing region code, categoryID, rank, keyword, and links to articles
+            RegionData: Object containing region code, category_id, rank, keyword, and links to articles
     """
     # Wrapped the trend_data function in a try block to catch all errors. Previously had to catch for diff errors in diff places
     try:
-        # Do not filter trending topics if categoryID is 0
-        if categoryID == 0:
+        # Do not filter trending topics if category_id is 0
+        if category_id == 0:
             trends = tr.trending_now(geo=region)
         else:
-            trends = tr.trending_now(
-                geo=region, hours=191).filter_by_topic(topic=categoryID)
+            trends = tr.trending_now(geo=region, hours=191).filter_by_topic(topic=category_id)
 
         # Added a check if no data is returned
         if not trends or i >= len(trends):
@@ -37,7 +36,7 @@ def trend_data(region: str, i: int, categoryID: int):
         obj = RegionData(
             region_code=region,
             rank=i,
-            categoryID=categoryID,
+            category_id=category_id,
             keyword=trends[i].keyword,
             link1=news[0].url,
             link2=news[1].url,

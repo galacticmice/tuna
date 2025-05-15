@@ -4,7 +4,7 @@
   import * as Carousel from '$lib/components/ui/carousel';
   import Loading from '$lib/Loading.svelte';
   import { get } from 'svelte/store';
-  import { responseCache } from '$lib/stores.js';
+  import { responseCache, selectedCategory, selectedLanguage } from '$lib/stores.js';
 
   let response = $state(['', '', '', '', '']);
   let isDialogOpen = $state(false);
@@ -17,9 +17,15 @@
     isLoading = [true, true, true, true, true];
     let partialChunkBuffer = ''; // Buffer for incomplete JSON lines
 
+    const params = new URLSearchParams({
+      reg: country_code,
+      cat: get(selectedCategory),
+      lang: get(selectedLanguage)
+    }).toString();
+
     try {
       const res = await fetch(
-        `http://localhost:8080/get-llm-response/${country_code}`
+        `http://localhost:8080/generate?${params}`
       );
       if (!res.ok) {
         throw new Error('Network response was not ok');
@@ -88,6 +94,8 @@
       error = error.message;
     }
   }
+
+
 
   export function openDialog(country_id, country_name) {
     current_country_id = country_id;

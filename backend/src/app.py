@@ -27,9 +27,9 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get('/get-llm-response/{country}')
-async def get_llm_response(country: str):
-    return StreamingResponse(parallelize_requests(country, categoryID), media_type="application/x-ndjson")
+@app.get('/generate')
+async def get_llm_response(reg: str, cat: int, lang: str):
+    return StreamingResponse(parallelize_requests(reg, cat, lang), media_type="application/x-ndjson")
 
 
 # Route the HTTP post request to the endpoint /set-category

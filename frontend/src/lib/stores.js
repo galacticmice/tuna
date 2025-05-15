@@ -2,6 +2,9 @@ import { writable } from "svelte/store";
 
 const SESSION_STORAGE_KEY = 'llmResponseCache';
 
+export const selectedCategory = writable("0");
+export const selectedLanguage = writable("en");
+
 function getInitialCache() {
     if (typeof window !== 'undefined' && window.sessionStorage) {
         const storedCache = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
