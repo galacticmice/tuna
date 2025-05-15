@@ -12,15 +12,21 @@
   let current_country_id = $state(null);
   let current_country_name = $state(null);
 
-  async function getResponse(country_code, country_name) {
+  // This is the cache key for the sessionStorage instance.
+  // All 3 values determine which cache data to use!
+  function cacheKey(country, category, language) {
+    return `${country}-${category}-${language}`;
+  }
+
+  async function getResponse(country_code, category, language) {
     response = ['', '', '', '', ''];
     isLoading = [true, true, true, true, true];
     let partialChunkBuffer = ''; // Buffer for incomplete JSON lines
 
     const params = new URLSearchParams({
       reg: country_code,
-      cat: get(selectedCategory),
-      lang: get(selectedLanguage)
+      cat: category,
+      lang: language
     }).toString();
 
     try {
@@ -84,7 +90,7 @@
 
       // sessionStorage here
       responseCache.update((cache) => {
-        cache[country_code] = {
+        cache[cacheKey(country_code, category, language)] = {
           responses: [...response],
         };
         return cache;
@@ -101,8 +107,11 @@
     current_country_id = country_id;
     current_country_name = country_name;
 
+    const current_category = get(selectedCategory);
+    const current_language = get(selectedLanguage);
+
     const cache = get(responseCache);
-    const cachedEntry = cache[country_id];
+    const cachedEntry = cache[cacheKey(country_id, current_category, current_language)];
 
     isDialogOpen = true;
 
@@ -116,7 +125,7 @@
       // otherwise, fetch new data
       response = ['', '', '', '', '']; // Reset response array
       isLoading = [true, true, true, true, true];
-      getResponse(current_country_id, current_country_name);
+      getResponse(current_country_id, current_category, current_language);
     }
   }
 
