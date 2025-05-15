@@ -1,6 +1,11 @@
 # <span style="color:salmon">tuna 🐟</span>
 Current trends around the world, canned.
 
+## Build
+```
+docker compose up
+```
+
 ### Stack
 Routes and API are built using FastAPI. 
 
@@ -14,11 +19,8 @@ Uses session storage for compute efficiency.
 
 MariaDB is used for data storage and retrieval of others' pregenerated data.
 
-### Todo
+## Todo
 - We are at MVP+ 🎉
 - Stay tuned for more features and other apps from [Ha](https://github.com/galacticmice) and [Anthony](https://github.com/Anthony0448)
 
-## Build
-```
-docker compose up
-```
+
