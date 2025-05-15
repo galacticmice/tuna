@@ -126,7 +126,7 @@
         on:mouseout={handleMouseOut}
         class="country"
         class:selected={selectedCountryIds.has(feature.id)}
-        in:draw={{ delay: i * 50, duration: 1000 }}
+        in:draw={{ delay: i * 30, duration: 600 }}
       />
     {/each}
   </g>
